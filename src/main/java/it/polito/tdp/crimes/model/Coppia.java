@@ -30,6 +30,10 @@ public class Coppia {
 	public void setPeso(int peso) {
 		this.peso = peso;
 	}
+	@Override
+	public String toString() {
+		return "Coppia [v1=" + v1 + ", v2=" + v2 + ", peso=" + peso + "]";
+	}
 	
 	
 	
