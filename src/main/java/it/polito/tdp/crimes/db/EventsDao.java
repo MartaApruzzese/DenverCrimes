@@ -53,5 +53,35 @@ public class EventsDao {
 			return null ;
 		}
 	}
+	
+	public List<String> getVertici(String categoria, int mese){
+		String sql="SELECT Distinct offense_type_id AS result "
+				+ "FROM EVENTS "
+				+ "WHERE MONTH(reported_date)= ? AND offense_category_id= ? ";
+		
+		List<String> result= new ArrayList<String>();
+		try {
+			Connection conn = DBConnect.getConnection() ;
+
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setInt(1, mese);
+			st.setString(2, categoria);
+			
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				result.add(res.getString("result"));
+			}
+			
+			
+			conn.close();
+			return result ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
 
 }
