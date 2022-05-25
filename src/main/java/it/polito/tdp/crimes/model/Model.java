@@ -23,6 +23,12 @@ public class Model {
 		Graphs.addAllVertices(this.grafo, dao.getVertici(categoria, mese));
 		
 		//Aggiungo gli archi
+		for(Coppia c: dao.getArchi(categoria, mese)) {
+			Graphs.addEdgeWithVertices(this.grafo, c.getV1(), c.getV2(), c.getPeso());
+		}
 		
+		System.out.println("Grafo creato.");
+		System.out.println("#VERTICI: "+grafo.vertexSet().size());
+		System.out.println("#ARCHI: "+grafo.edgeSet().size());
 	}
 }
