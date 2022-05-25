@@ -5,8 +5,12 @@
 package it.polito.tdp.crimes;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import org.jgrapht.graph.DefaultWeightedEdge;
+
+import it.polito.tdp.crimes.model.Coppia;
 import it.polito.tdp.crimes.model.Event;
 import it.polito.tdp.crimes.model.Model;
 import javafx.event.ActionEvent;
@@ -26,7 +30,7 @@ public class FXMLController {
     private URL location;
 
     @FXML // fx:id="boxCategoria"
-    private ComboBox<Event> boxCategoria; // Value injected by FXMLLoader
+    private ComboBox<String> boxCategoria; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxMese"
     private ComboBox<Integer> boxMese; // Value injected by FXMLLoader
@@ -35,7 +39,7 @@ public class FXMLController {
     private Button btnAnalisi; // Value injected by FXMLLoader
 
     @FXML // fx:id="boxArco"
-    private ComboBox<?> boxArco; // Value injected by FXMLLoader
+    private ComboBox<DefaultWeightedEdge> boxArco; // Value injected by FXMLLoader
 
     @FXML // fx:id="btnPercorso"
     private Button btnPercorso; // Value injected by FXMLLoader
@@ -45,12 +49,23 @@ public class FXMLController {
 
     @FXML
     void doCalcolaPercorso(ActionEvent event) {
-
+    	
+    	
+    	
     }
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	String categoria= boxCategoria.getValue();
+    	boxMese.getItems().addAll(model.getMesi(categoria));
+    	Integer mese= boxMese.getValue();
+    	model.creaGrafo(categoria, mese);
+    	txtResult.clear();
+    	for(Coppia c: model.getArchiMaggioriPesoMedio()) {
+    		txtResult.appendText(c.getV1()+" "+c.getV2()+ " peso: "+c.getPeso()+"\n");
+    	}
+    	List<DefaultWeightedEdge> archi= model.getArchi();
+    	boxArco.getItems().addAll(archi);
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -66,5 +81,9 @@ public class FXMLController {
     
     public void setModel(Model model) {
     	this.model = model;
+    	boxCategoria.getItems().addAll(model.getCategorie());
+    	for(int i=1; i<13; i++) {
+    		boxMese.getItems().add(i);
+    	}
     }
 }

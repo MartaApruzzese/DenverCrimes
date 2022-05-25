@@ -13,6 +13,34 @@ import it.polito.tdp.crimes.model.Event;
 
 public class EventsDao {
 	
+	
+	public List<String> getCategorie(){
+		String sql= "SELECT DISTINCT e.offense_category_id AS categorie "
+				+ "FROM EVENTS e";
+		List<String> result= new ArrayList<>();
+		try {
+			Connection conn = DBConnect.getConnection() ;
+
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				result.add(res.getString("categorie"));
+			}
+			
+			
+			conn.close();
+			return result ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
+	
+	
 	public List<Event> listAllEvents(){
 		String sql = "SELECT * FROM events" ;
 		try {
@@ -119,5 +147,31 @@ public class EventsDao {
 		}
 	}
 	
+	public List<Integer> getMesi(String categoria){
+		String sql= "SELECT DISTINCT MONTH(e.reported_date) AS mese "
+				+ "FROM EVENTS e "
+				+ "WHERE e.offense_category_id= ? ";
+		List<Integer> result= new ArrayList<>();
+		try {
+			Connection conn = DBConnect.getConnection() ;
+
+			PreparedStatement st = conn.prepareStatement(sql) ;
+			st.setString(1, categoria);
+			ResultSet res = st.executeQuery() ;
+			
+			while(res.next()) {
+				result.add(res.getInt("mese"));
+			}
+			
+			
+			conn.close();
+			return result ;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null ;
+		}
+	}
 	
 }

@@ -92,4 +92,19 @@ public class Model {
 		}
 	
 	}
+	
+	
+	public List<DefaultWeightedEdge> getArchi(){
+		List<DefaultWeightedEdge> lista= new ArrayList<>(this.grafo.edgeSet());
+		return lista;
+	}
+	
+	
+	public List<String> getCategorie(){
+		return dao.getCategorie();
+	}
+	
+	public List<Integer> getMesi(String categoria){
+		return dao.getMesi(categoria);
+	}
 }
